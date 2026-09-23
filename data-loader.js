@@ -1,55 +1,24 @@
 /**
  * CARGADOR DE DATOS DINÁMICO (Google Sheets / Drive)
- * -------------------------------------------------------
- * Esto permite que edites el cuadro de comparaciones directamente en
- * un Google Sheet (en Drive) y que esos cambios se reflejen en la web
- * la próxima vez que alguien la abra - sin tener que tocar el código.
- *
- * CÓMO CONFIGURARLO (una sola vez):
- * 1. Sube el archivo "COMPARACIONES_MAESTRO.xlsx" a Google Drive y
- *    ábrelo con Google Sheets (se convierte automáticamente).
- * 2. En Sheets: Archivo -> Compartir -> Compartir con otras personas ->
- *    cambia el acceso general a "Cualquier persona con el enlace" ->
- *    rol "Lector". (Así la web puede LEER los datos; nadie puede
- *    editar el Sheet salvo quien tú autorices).
- * 3. Copia el ID del Sheet desde la URL. Ejemplo de URL:
- *      https://docs.google.com/spreadsheets/d/1AbCdEfGhIjKlMnOpQrStUvWxYz/edit
- *    El ID es la parte entre "/d/" y "/edit":
- *      1AbCdEfGhIjKlMnOpQrStUvWxYz
- * 4. Pega ese ID abajo en SHEET_ID (reemplaza el texto de ejemplo).
- * 5. Guarda este archivo y abre index.html. Si todo está bien
- *    configurado, la web leerá los datos en vivo desde tu Sheet.
- *
- * IMPORTANTE:
- * - La pestaña del Sheet debe llamarse EXACTAMENTE "COMPARACIONES"
- *   (así se llama al abrir el .xlsx, no hace falta cambiar nada).
- * - No cambies los nombres de las columnas (fila 1 del Excel).
- * - Puedes agregar filas nuevas, modelos nuevos, competidores nuevos,
- *   o editar cualquier valor - todo se reflejará automáticamente.
- * - Si la web se abre como archivo local (doble clic) es posible que
- *   el navegador bloquee esta conexión por seguridad. Si eso pasa,
- *   la web sigue funcionando normal, pero usando la copia de
- *   respaldo (comparador.js y comparaciones.js) en vez de tu Sheet
- *   en vivo. Para que la conexión en vivo funcione siempre, lo ideal
- *   es publicar la web en un hosting (ver nota al final del chat).
  */
 
-const SHEET_ID = "1TeinuiEHMb0jDvVWf8GB04A-Es7Hub5z";
+const SHEET_ID = "12MQDhlfqkIs0EtXVKQZikB0-H1t1b1KiGrf0Q7juYjA";
 const SHEET_NOMBRE_PESTAÑA = "COMPARACIONES";
 
-// -----------------------------------------------------
-// No hace falta tocar nada de acá para abajo
-// -----------------------------------------------------
-
 function construirUrlCsv(sheetId, nombrePestaña) {
-  return `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombrePestaña)}`;
+  const timestamp = new Date().getTime();
+  return `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombrePestaña)}&t=${timestamp}`;
 }
 
 function parsearCsv(texto) {
   if (typeof Papa === "undefined") {
-    throw new Error("PapaParse no está cargado (revisa que el <script> de PapaParse esté en index.html)");
+    throw new Error("PapaParse no está cargado");
   }
-  const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
+  const resultado = Papa.parse(texto, {
+    header: true,
+    skipEmptyLines: true,
+    transformHeader: (header) => header.trim().toUpperCase() // Asegura que no fallen mayúsculas ni espacios
+  });
   return resultado.data;
 }
 
@@ -58,19 +27,21 @@ function construirDatosDesdeFilas(filas) {
   const comparaciones = {};
 
   filas.forEach((fila) => {
-    const modeloId = (fila.MODELO_ID || "").trim();
-    const competidor = (fila.COMPETIDOR || "").trim();
-    if (!modeloId || !competidor) return; // fila vacía o incompleta, se ignora
+    // Normalización de claves por si difieren en el Sheet
+    const modeloId = (fila.MODELO_ID || fila["MODELO ID"] || fila.MODELO || "").trim();
+    const competidor = (fila.COMPETIDOR || fila.RIVAL || "").trim();
 
-    // --- COMPARADOR: qué competidores existen por modelo ---
+    if (!modeloId || !competidor) return;
+
+    // --- COMPARADOR: lista de competidores por modelo ---
     if (!comparador[modeloId]) comparador[modeloId] = [];
     if (!comparador[modeloId].includes(competidor)) comparador[modeloId].push(competidor);
 
-    // --- COMPARACIONES: el cuadro detallado ---
+    // --- COMPARACIONES: contenido del cuadro ---
     const llave = `${modeloId}|${competidor}`;
     if (!comparaciones[llave]) {
       comparaciones[llave] = {
-        titulo: fila.TITULO || "",
+        titulo: fila.TITULO || `Comparativa: ${modeloId} vs ${competidor}`,
         competidorNombre: competidor,
         fotoCompetidor: fila.FOTO_COMPETIDOR || `images/comparador/${competidor.toLowerCase().replace(/\s+/g, "-")}.jpg`,
         secciones: [],
@@ -86,9 +57,9 @@ function construirDatosDesdeFilas(filas) {
     }
 
     seccion.filas.push({
-      label: fila.ITEM || "",
-      geely: fila.GEELY || "",
-      competidor: fila.COMPETIDOR_VALOR || "",
+      label: fila.ITEM || fila.LABEL || "",
+      geely: fila.GEELY || fila.VALOR_GEELY || "",
+      competidor: fila.COMPETIDOR_VALOR || fila.VALOR_COMPETIDOR || "",
       ventaja: fila.VENTAJA || "",
     });
   });
@@ -96,17 +67,9 @@ function construirDatosDesdeFilas(filas) {
   return { comparador, comparaciones };
 }
 
-/**
- * Intenta cargar los datos en vivo desde el Google Sheet configurado.
- * Si todo sale bien, REEMPLAZA las variables globales COMPARADOR y
- * COMPARACIONES (que ya vienen cargadas con los valores de respaldo
- * desde comparador.js y comparaciones.js).
- * Si algo falla (sin configurar, sin internet, bloqueado, etc.),
- * no hace nada y la web sigue usando el respaldo estático tal cual.
- */
 async function intentarCargarDatosDesdeDrive() {
   if (!SHEET_ID || SHEET_ID.startsWith("PEGA_AQUI")) {
-    console.info("[data-loader] SHEET_ID no configurado todavía - usando datos de respaldo (comparador.js / comparaciones.js).");
+    console.info("[data-loader] SHEET_ID no configurado todavía.");
     return false;
   }
 
@@ -115,19 +78,19 @@ async function intentarCargarDatosDesdeDrive() {
     const respuesta = await fetch(url);
 
     if (!respuesta.ok) {
-      throw new Error(`El Sheet respondió con estado ${respuesta.status}. Revisa que esté compartido como "Cualquier persona con el enlace - Lector".`);
+      throw new Error(`El Sheet respondió con estado ${respuesta.status}.`);
     }
 
     const texto = await respuesta.text();
     const filas = parsearCsv(texto);
 
     if (!filas || filas.length === 0) {
-      throw new Error("El Sheet respondió vacío o con un formato inesperado.");
+      throw new Error("El Sheet respondió vacío.");
     }
 
     const { comparador, comparaciones } = construirDatosDesdeFilas(filas);
 
-    // Reemplaza las variables globales (ya declaradas por comparador.js / comparaciones.js)
+    // Reemplaza las variables globales con los datos en vivo
     Object.keys(COMPARADOR).forEach((k) => delete COMPARADOR[k]);
     Object.assign(COMPARADOR, comparador);
 
@@ -135,9 +98,15 @@ async function intentarCargarDatosDesdeDrive() {
     Object.assign(COMPARACIONES, comparaciones);
 
     console.info(`[data-loader] Datos cargados en vivo desde Google Sheets ✅ (${filas.length} filas, ${Object.keys(comparaciones).length} comparaciones).`);
+
+    // Refrescar el selector en app.js si ya había un auto elegido
+    if (typeof refrescarComparadorActivo === "function") {
+      refrescarComparadorActivo();
+    }
+
     return true;
   } catch (error) {
-    console.warn("[data-loader] No se pudo cargar el Sheet en vivo, se usa el respaldo estático. Motivo:", error.message);
+    console.warn("[data-loader] No se pudo cargar el Sheet en vivo, usando respaldo. Motivo:", error.message);
     return false;
   }
 }
