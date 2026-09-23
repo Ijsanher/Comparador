@@ -34,7 +34,7 @@
  *   es publicar la web en un hosting (ver nota al final del chat).
  */
 
-const SHEET_ID = "12MQDhlfqkIs0EtXVKQZikB0-H1t1b1KiGrf0Q7juYjA";
+const SHEET_ID = "1TeinuiEHMb0jDvVWf8GB04A-Es7Hub5z";
 const SHEET_NOMBRE_PESTAÑA = "COMPARACIONES";
 
 // -----------------------------------------------------
