@@ -2,7 +2,7 @@
  * CARGADOR DE DATOS DINÁMICO (Google Sheets / Drive)
  */
 
-const SHEET_ID = "12MQDhlfqkIs0EtXVKQZikB0-H1t1b1KiGrf0Q7juYjA";
+const SHEET_ID = "1TeinuiEHMb0jDvVWf8GB04A-Es7Hub5z";
 const SHEET_NOMBRE_PESTAÑA = "COMPARACIONES";
 
 function construirUrlCsv(sheetId, nombrePestaña) {
