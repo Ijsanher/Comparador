@@ -12,12 +12,13 @@ function construirUrlCsv(sheetId, nombrePestaña) {
 
 function parsearCsv(texto) {
   if (typeof Papa === "undefined") {
-    throw new Error("PapaParse no está cargado");
+    throw new Error("PapaParse no está cargado en index.html");
   }
   const resultado = Papa.parse(texto, {
     header: true,
     skipEmptyLines: true,
-    transformHeader: (header) => header.trim().toUpperCase() // Asegura que no fallen mayúsculas ni espacios
+    // Limpia espacios invisibles, saltos de línea y normaliza a mayúsculas
+    transformHeader: (header) => header.replace(/[\r\n]+/g, " ").trim().toUpperCase()
   });
   return resultado.data;
 }
@@ -27,49 +28,63 @@ function construirDatosDesdeFilas(filas) {
   const comparaciones = {};
 
   filas.forEach((fila) => {
-    // Normalización de claves por si difieren en el Sheet
-    const modeloId = (fila.MODELO_ID || fila["MODELO ID"] || fila.MODELO || "").trim();
-    const competidor = (fila.COMPETIDOR || fila.RIVAL || "").trim();
+    // 1. MODELO_ID y 2. MODELO_NOMBRE
+    const modeloId = (fila.MODELO_ID || "").trim();
+    const modeloNombre = (fila.MODELO_NOMBRE || "").trim();
 
+    // 3. COMPETIDOR
+    const competidor = (fila.COMPETIDOR || "").trim();
+
+    // Si la fila no tiene ID de modelo ni competidor, se descarta
     if (!modeloId || !competidor) return;
 
-    // --- COMPARADOR: lista de competidores por modelo ---
+    // --- COMPARADOR: qué competidores existen por modelo ---
     if (!comparador[modeloId]) comparador[modeloId] = [];
-    if (!comparador[modeloId].includes(competidor)) comparador[modeloId].push(competidor);
+    if (!comparador[modeloId].includes(competidor)) {
+      comparador[modeloId].push(competidor);
+    }
 
-    // --- COMPARACIONES: contenido del cuadro ---
+    // --- COMPARACIONES: cuadro comparativo detallado ---
     const llave = `${modeloId}|${competidor}`;
     if (!comparaciones[llave]) {
       comparaciones[llave] = {
-        titulo: fila.TITULO || `Comparativa: ${modeloId} vs ${competidor}`,
+        // 5. TITULO
+        titulo: (fila.TITULO || "").trim() || `COMPARATIVO: ${modeloNombre || modeloId} vs ${competidor}`,
         competidorNombre: competidor,
-        fotoCompetidor: fila.FOTO_COMPETIDOR || `images/comparador/${competidor.toLowerCase().replace(/\s+/g, "-")}.jpg`,
+        // 4. FOTO_COMPETIDOR
+        fotoCompetidor: (fila.FOTO_COMPETIDOR || "").trim() || `images/comparador/${competidor.toLowerCase().replace(/\s+/g, "-")}.jpg`,
         secciones: [],
       };
     }
 
     const entrada = comparaciones[llave];
-    const categoria = fila.CATEGORIA || "General";
+
+    // 6. CATEGORIA
+    const categoria = (fila.CATEGORIA || "").trim() || "GENERAL";
     let seccion = entrada.secciones.find((s) => s.categoria === categoria);
     if (!seccion) {
       seccion = { categoria, filas: [] };
       entrada.secciones.push(seccion);
     }
 
+    // 7. ITEM, 8. GEELY, 9. COMPETIDOR_VALOR, 10. VENTAJA
     seccion.filas.push({
-      label: fila.ITEM || fila.LABEL || "",
-      geely: fila.GEELY || fila.VALOR_GEELY || "",
-      competidor: fila.COMPETIDOR_VALOR || fila.VALOR_COMPETIDOR || "",
-      ventaja: fila.VENTAJA || "",
+      label: (fila.ITEM || "").trim(),
+      geely: (fila.GEELY || "").trim(),
+      competidor: (fila.COMPETIDOR_VALOR || "").trim(),
+      ventaja: (fila.VENTAJA || "").trim(),
     });
   });
 
   return { comparador, comparaciones };
 }
 
+/**
+ * Carga los datos en vivo desde Google Sheets y actualiza las variables globales
+ */
 async function intentarCargarDatosDesdeDrive() {
   if (!SHEET_ID || SHEET_ID.startsWith("PEGA_AQUI")) {
-    console.info("[data-loader] SHEET_ID no configurado todavía.");
+    console.info("[data-loader] SHEET_ID no configurado.");
     return false;
   }
 
@@ -78,28 +93,29 @@ async function intentarCargarDatosDesdeDrive() {
     const respuesta = await fetch(url);
 
     if (!respuesta.ok) {
-      throw new Error(`El Sheet respondió con estado ${respuesta.status}.`);
+      throw new Error(`El Sheet respondió con estado ${respuesta.status}. Verifica que esté compartido como Lector público.`);
     }
 
     const texto = await respuesta.text();
     const filas = parsearCsv(texto);
 
     if (!filas || filas.length === 0) {
-      throw new Error("El Sheet respondió vacío.");
+      throw new Error("El Sheet respondió sin registros.");
     }
 
     const { comparador, comparaciones } = construirDatosDesdeFilas(filas);
+    const totalComparaciones = Object.keys(comparaciones).length;
 
-    // Reemplaza las variables globales con los datos en vivo
+    // Actualiza los objetos globales
     Object.keys(COMPARADOR).forEach((k) => delete COMPARADOR[k]);
     Object.assign(COMPARADOR, comparador);
 
     Object.keys(COMPARACIONES).forEach((k) => delete COMPARACIONES[k]);
     Object.assign(COMPARACIONES, comparaciones);
 
-    console.info(`[data-loader] Datos cargados en vivo desde Google Sheets ✅ (${filas.length} filas, ${Object.keys(comparaciones).length} comparaciones).`);
+    console.info(`[data-loader] Datos cargados en vivo desde Google Sheets ✅ (${filas.length} filas, ${totalComparaciones} comparaciones).`);
 
-    // Refrescar el selector en app.js si ya había un auto elegido
+    // Refrescar el selector si el usuario ya tenía un vehículo seleccionado
     if (typeof refrescarComparadorActivo === "function") {
       refrescarComparadorActivo();
     }
