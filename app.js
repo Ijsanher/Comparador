@@ -19,7 +19,6 @@ let autoplayTimer = null;
 function iniciarBanner() {
   if (!slidesTrack || totalSlides === 0) return;
 
-  // crear los puntos (dots)
   for (let i = 0; i < totalSlides; i++) {
     const dot = document.createElement("button");
     dot.className = "dot" + (i === 0 ? " activo" : "");
@@ -32,7 +31,6 @@ function iniciarBanner() {
   arrowPrev.addEventListener("click", () => irASlide(slideActual - 1));
   arrowNext.addEventListener("click", () => irASlide(slideActual + 1));
 
-  // swipe táctil
   let startX = 0;
   slidesTrack.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
@@ -84,16 +82,13 @@ const selectComparadorCompetidor = document.getElementById("select-comparador-co
 const btnComparar = document.getElementById("btn-comparar");
 
 // -----------------------------------------------------
-// 1. Pintar el grid de modelos (cada uno con su foto)
+// 1. Pintar el grid de modelos
 // -----------------------------------------------------
 function pintarModelos() {
   if (typeof CATALOGO === "undefined") {
     gridModelos.innerHTML = `
       <div style="grid-column: 1 / -1; padding: 20px; background: rgba(255,80,80,0.15); border: 1px solid rgba(200,0,0,0.4); border-radius: 10px; font-size: 14px;">
-        ⚠️ No se pudo cargar <strong>catalogo.js</strong>. Revisa que el archivo
-        esté en la misma carpeta que index.html y que el nombre esté escrito
-        exactamente así (minúsculas, sin espacios). Abre la consola del
-        navegador (F12 → pestaña "Console") para ver el error exacto.
+        ⚠️ No se pudo cargar <strong>catalogo.js</strong>.
       </div>`;
     return;
   }
@@ -125,7 +120,6 @@ function pintarModelos() {
 function seleccionarModelo(modelo) {
   modeloSeleccionado = modelo;
 
-  // marcar visualmente la card activa
   document.querySelectorAll(".card-modelo").forEach((c) => {
     c.classList.toggle("seleccionado", c.dataset.id === modelo.id);
   });
@@ -137,8 +131,17 @@ function seleccionarModelo(modelo) {
   resetSelect(selectColor, "Primero elige una versión");
   actualizarBoton();
 
-  // --- Comparador: ver si este modelo tiene data de comparación ---
-  const competidoresDisponibles = (typeof COMPARADOR !== "undefined") ? COMPARADOR[modelo.id] : null;
+  // Actualizar lista de competidores
+  refrescarComparadorActivo();
+
+  panelSeleccion.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+// Función que refresca los competidores si llegan datos en vivo del Sheet
+function refrescarComparadorActivo() {
+  if (!modeloSeleccionado) return;
+
+  const competidoresDisponibles = (typeof COMPARADOR !== "undefined") ? COMPARADOR[modeloSeleccionado.id] : null;
 
   if (competidoresDisponibles && competidoresDisponibles.length > 0) {
     llenarSelect(selectComparadorCompetidor, competidoresDisponibles, "Elige modelo a comparar");
@@ -146,13 +149,10 @@ function seleccionarModelo(modelo) {
     resetSelect(selectComparadorCompetidor, "Próximamente para este modelo");
   }
   actualizarBotonComparar();
-
-  // en mobile, llevamos la vista hacia el panel
-  panelSeleccion.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 // -----------------------------------------------------
-// 3. Al elegir versión -> llenar colores de esa versión
+// 3. Event listeners de selectores
 // -----------------------------------------------------
 selectVersion.addEventListener("change", () => {
   const version = modeloSeleccionado.versiones.find(
@@ -169,14 +169,10 @@ selectVersion.addEventListener("change", () => {
 });
 
 selectColor.addEventListener("change", actualizarBoton);
-
-// -----------------------------------------------------
-// 3b. COMPARADOR: al elegir el modelo rival -> habilitar botón
-// -----------------------------------------------------
 selectComparadorCompetidor.addEventListener("change", actualizarBotonComparar);
 
 // -----------------------------------------------------
-// 4. Botón final -> abrir carpeta de Drive
+// 4. Botones
 // -----------------------------------------------------
 btnVer.addEventListener("click", () => {
   const version = modeloSeleccionado.versiones.find(
@@ -189,9 +185,6 @@ btnVer.addEventListener("click", () => {
   }
 });
 
-// -----------------------------------------------------
-// 4b. Botón "Comparar" -> abre pestaña con el cuadro comparativo
-// -----------------------------------------------------
 btnComparar.addEventListener("click", () => {
   const competidor = selectComparadorCompetidor.value;
   const llave = `${modeloSeleccionado.id}|${competidor}`;
@@ -207,12 +200,9 @@ btnComparar.addEventListener("click", () => {
 
 function abrirCuadroComparativo(modelo, datos) {
   const ventana = window.open("", "_blank");
-  if (!ventana) return; // por si el navegador bloquea el popup
+  if (!ventana) return;
 
   const fotoPropia = `images/comparador/${modelo.id}.jpg`;
-
-  // Algunos modelos (ej. Coolray Lite, GX3 Pro) no traen columna de
-  // "ventaja competitiva" -> si ninguna fila la tiene, no mostramos esa columna.
   const tieneVentaja = datos.secciones.some((s) => s.filas.some((f) => f.ventaja && f.ventaja.trim() !== ""));
   const colspanCategoria = tieneVentaja ? 4 : 3;
 
@@ -274,8 +264,6 @@ function abrirCuadroComparativo(modelo, datos) {
           text-align: center;
           line-height: 1.3;
         }
-
-        /* --- espacio para las 2 fotos --- */
         .fotos-comparativas {
           display: grid;
           grid-template-columns: 1fr auto 1fr;
@@ -323,7 +311,6 @@ function abrirCuadroComparativo(modelo, datos) {
           font-size: 15px;
           text-align: center;
         }
-
         table {
           width: 100%;
           border-collapse: collapse;
@@ -339,16 +326,8 @@ function abrirCuadroComparativo(modelo, datos) {
           border-bottom: 1px solid var(--border);
           vertical-align: top;
         }
-        td.col-label {
-          font-weight: 600;
-          color: var(--text-muted);
-          width: 20%;
-        }
-        td.col-ventaja {
-          color: var(--accent);
-          font-size: 12px;
-          width: 26%;
-        }
+        td.col-label { font-weight: 600; color: var(--text-muted); width: 20%; }
+        td.col-ventaja { color: var(--accent); font-size: 12px; width: 26%; }
         tr.fila-categoria td {
           background: var(--accent);
           color: #fff;
@@ -386,7 +365,6 @@ function abrirCuadroComparativo(modelo, datos) {
       <div class="contenedor">
         <p class="eyebrow">Cuadro Comparativo</p>
         <h1>${datos.titulo.replace('COMPARATIVO TÉCNICO Y DE EQUIPAMIENTO: ', '')}</h1>
-
         <div class="fotos-comparativas">
           <div class="foto-card propio">
             <div class="foto-wrap">
@@ -404,13 +382,11 @@ function abrirCuadroComparativo(modelo, datos) {
             <div class="nombre-vehiculo">${datos.competidorNombre.toUpperCase()}</div>
           </div>
         </div>
-
         <table>
           <tbody>
             ${seccionesHtml}
           </tbody>
         </table>
-
         <p class="nota">Ficha comparativa referencial. Las especificaciones pueden variar según el año de fabricación y disponibilidad de stock.</p>
       </div>
     </body>
@@ -440,32 +416,10 @@ function abrirCuadroComparativoPendiente(vehiculoPropio, competidor) {
           padding: 40px 20px;
           text-align: center;
         }
-        .eyebrow {
-          font-size: 12px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #6c8dff;
-          font-weight: 700;
-          margin-bottom: 10px;
-        }
+        .eyebrow { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6c8dff; font-weight: 700; margin-bottom: 10px; }
         h1 { font-size: 22px; margin: 0 0 30px; }
-        .vs-row {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 18px;
-          flex-wrap: wrap;
-          max-width: 640px;
-          margin: 0 auto 30px;
-        }
-        .vehiculo {
-          flex: 1 1 220px;
-          background: #1a1f2e;
-          border: 1px solid #2a3040;
-          border-radius: 12px;
-          padding: 20px;
-          font-weight: 600;
-        }
+        .vs-row { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; max-width: 640px; margin: 0 auto 30px; }
+        .vehiculo { flex: 1 1 220px; background: #1a1f2e; border: 1px solid #2a3040; border-radius: 12px; padding: 20px; font-weight: 600; }
         .vs-label { font-weight: 800; color: #6c8dff; font-size: 14px; }
         p.nota { color: #9aa2b5; font-size: 14px; max-width: 480px; margin: 0 auto; }
       </style>
@@ -520,14 +474,6 @@ function actualizarBotonComparar() {
 // -----------------------------------------------------
 // Iniciar
 // -----------------------------------------------------
-// Primero se pinta todo con los datos de respaldo (para que la web
-// nunca se vea vacía ni "cargando"), y en paralelo se intenta traer
-// la versión en vivo desde Google Sheets. Si llega a tiempo, no se
-// nota ningún cambio visual porque el modelo aún no fue elegido.
-//
-// Todo va envuelto en try/catch: si UNA parte falla (por ejemplo,
-// falta algún archivo .js), el resto de la página sigue funcionando
-// en vez de quedar completamente en blanco.
 try {
   pintarModelos();
 } catch (error) {
@@ -540,10 +486,13 @@ try {
   console.error("[app.js] Error al iniciar el banner:", error);
 }
 
-try {
-  if (typeof intentarCargarDatosDesdeDrive === "function") {
-    intentarCargarDatosDesdeDrive();
+// Carga en vivo
+(async function iniciarDatos() {
+  try {
+    if (typeof intentarCargarDatosDesdeDrive === "function") {
+      await intentarCargarDatosDesdeDrive();
+    }
+  } catch (error) {
+    console.error("[app.js] Error al cargar datos desde Drive:", error);
   }
-} catch (error) {
-  console.error("[app.js] Error al intentar cargar datos desde Drive:", error);
-}
+})();
