@@ -1,0 +1,486 @@
+/* ---------------------------------------------------
+   FUENTE PROPIA - GEELY Global Font
+   -----------------------------------------------------
+   Coloca el archivo GEELYBold20250530.otf dentro de una
+   carpeta "fonts/" junto a index.html, style.css, etc.
+--------------------------------------------------- */
+@font-face {
+  font-family: "GEELY Global Font";
+  src: url("fonts/GEELYBold20250530.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------
+   FUENTE PROPIA - Inter (variable, para todo el resto de textos)
+   -----------------------------------------------------
+   Coloca el archivo Inter-Variable.5bb5755c.ttf dentro de
+   la misma carpeta "fonts/".
+--------------------------------------------------- */
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-Variable.5bb5755c.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------
+   TOKENS - paleta clara (trama degradada azul/lavanda)
+--------------------------------------------------- */
+:root {
+  --bg-gradient: linear-gradient(180deg, #C9D4FE 0%, #ECEFFD 25%, #D1ECF5 60%, #A3B7FF 100%);
+  --bg-alt: rgba(255, 255, 255, 0.45);
+  --surface: rgba(255, 255, 255, 0.78);
+  --surface-hover: rgba(255, 255, 255, 0.95);
+  --border: rgba(30, 40, 90, 0.14);
+  --text: #171b2e;
+  --text-muted: #5a6180;
+  --accent: #2a4bdb;
+  --accent-hover: #1c35a8;
+  --accent-text: #ffffff;
+
+  --radius: 12px;
+  --font-display: "GEELY Global Font", "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --header-h: 60px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+body { padding-bottom: 48px; }
+
+img { max-width: 100%; display: block; }
+
+/* ---------------------------------------------------
+   HEADER / NAV
+--------------------------------------------------- */
+header.top {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+header.top .brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--text);
+}
+
+header.top .brand span { color: var(--accent); }
+
+header.top .tagline {
+  display: none;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------
+   HERO / BANNER DESLIZABLE
+--------------------------------------------------- */
+.hero-slider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+
+.hero-slider .slides-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.hero-slider .slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero-slider .slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 2;
+}
+
+.hero-slider .slide .placeholder-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text-muted);
+  background: linear-gradient(135deg, var(--surface), var(--bg-alt));
+  font-size: 13px;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-slider .slide .placeholder-slide strong {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+
+.hero-slider .slide .overlay-text {
+  position: absolute;
+  left: 20px;
+  bottom: 22px;
+  right: 20px;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+.hero-slider .slide .overlay-text .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-hover);
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.hero-slider .slide .overlay-text h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(20px, 6vw, 30px);
+  line-height: 1.2;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+/* flechas */
+.hero-slider .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(23, 27, 46, 0.55);
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+}
+
+.hero-slider .arrow.prev { left: 10px; }
+.hero-slider .arrow.next { right: 10px; }
+.hero-slider .arrow:hover { background: var(--accent); }
+
+/* dots */
+.hero-slider .dots {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 5;
+}
+
+.hero-slider .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 0 1px rgba(23, 27, 46, 0.25);
+  cursor: pointer;
+  padding: 0;
+}
+
+.hero-slider .dot.activo {
+  background: var(--accent);
+  box-shadow: none;
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* ---------------------------------------------------
+   SECCION MODELOS
+--------------------------------------------------- */
+main { padding: 0 16px; }
+
+.seccion-modelos { padding-top: 28px; }
+
+.seccion-modelos .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-hover);
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.seccion-modelos h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 5vw, 24px);
+  line-height: 1.2;
+  letter-spacing: 0;
+  margin: 0 0 6px;
+}
+
+.seccion-modelos > p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0 0 18px;
+}
+
+.grid-modelos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.card-modelo {
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  color: inherit;
+  font-family: inherit;
+  box-shadow: 0 4px 16px rgba(30, 40, 90, 0.08);
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-modelo:hover,
+.card-modelo:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.card-modelo.seleccionado {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(42, 75, 219, 0.25);
+}
+
+.card-modelo .foto-wrap {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--surface-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-modelo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-modelo .placeholder-icon {
+  color: var(--text-muted);
+  font-size: 28px;
+}
+
+.card-modelo .nombre {
+  padding: 10px 12px 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ---------------------------------------------------
+   PANEL DE SELECCIÓN (versión + color) - inline bajo la card
+--------------------------------------------------- */
+.panel-seleccion {
+  margin-top: 20px;
+  padding: 18px;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(30, 40, 90, 0.08);
+  display: none;
+}
+
+.panel-seleccion.visible {
+  display: block;
+  animation: aparecer 0.25s ease;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-seleccion .modelo-actual {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  margin: 0 0 16px;
+}
+
+/* columnas internas del panel: "Fotos y videos" | "Comparador" */
+.panel-columnas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.bloque-panel + .bloque-panel {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.bloque-titulo {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+.campo { margin-bottom: 14px; }
+
+.campo label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.campo select {
+  width: 100%;
+  padding: 12px 14px;
+  background-color: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235a6180' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.campo select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.campo select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-ver {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-ver:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-ver:not(:disabled):hover { background: var(--accent-hover); }
+
+.btn-comparar {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-comparar:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-comparar:not(:disabled):hover { background: var(--accent); color: var(--accent-text); }
+
+/* ---------------------------------------------------
+   DESKTOP
+--------------------------------------------------- */
+@media (min-width: 768px) {
+  header.top { padding: 0 40px; }
+  header.top .tagline { display: block; }
+
+  .hero-slider { aspect-ratio: 21 / 8; }
+  .hero-slider .arrow { width: 44px; height: 44px; font-size: 20px; }
+  .hero-slider .slide .overlay-text { left: 48px; bottom: 40px; right: 48px; }
+
+  main { padding: 0 40px; max-width: 1100px; margin: 0 auto; }
+  .seccion-modelos { padding-top: 40px; }
+
+  .grid-modelos {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .panel-seleccion { max-width: 720px; }
+
+  /* en desktop, "Fotos y videos" y "Comparador" van lado a lado */
+  .panel-columnas {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .bloque-panel + .bloque-panel {
+    padding-top: 0;
+    padding-left: 28px;
+    border-top: none;
+    border-left: 1px solid var(--border);
+  }
+}
