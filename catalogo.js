@@ -186,7 +186,7 @@ const CATALOGO = [
     foto: "images/gx3-pro.jpg",
     versiones: [
       {
-        nombre: "Exclusive MT",
+        nombre: "Exclusive_MT",
         colores: [
           { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1U8K9QLS5Ec6r77kKCCrvalVGjRDdyWEs" },
           { nombre: "Negro", link: "https://drive.google.com/drive/folders/1Ge1buUUhTREV4-UWOF3NTp_WVqxfU3A6" },
@@ -195,7 +195,7 @@ const CATALOGO = [
         ]
       },
       {
-        nombre: "Exclusive AT",
+        nombre: "Exclusive_AT",
         colores: [
           { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1AVuA2z7OMsDloSu5R_WDwD4RX_f8kBcp" },
           { nombre: "Negro", link: "https://drive.google.com/drive/folders/1WmRbHFs5oW4sBrY7q86grr77isETrbhz" },
