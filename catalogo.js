@@ -186,9 +186,21 @@ const CATALOGO = [
     foto: "images/gx3-pro.jpg",
     versiones: [
       {
-        nombre: "Versión pendiente",
+        nombre: "Exclusive MT",
         colores: [
-          { nombre: "Color pendiente", link: "PENDIENTE_LINK_DRIVE" }
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1U8K9QLS5Ec6r77kKCCrvalVGjRDdyWEs" },
+          { nombre: "Negro", link: "https://drive.google.com/drive/folders/1Ge1buUUhTREV4-UWOF3NTp_WVqxfU3A6" },
+          { nombre: "Rojo", link: "https://drive.google.com/drive/folders/193hyiTBKUz7UD8If4I-Z4HVleuNYxdfZ" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/185ZPkZGQvAXUSJmB2wvZHuXD1o751SaN" }
+        ]
+      },
+      {
+        nombre: "Exclusive AT",
+        colores: [
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1AVuA2z7OMsDloSu5R_WDwD4RX_f8kBcp" },
+          { nombre: "Negro", link: "https://drive.google.com/drive/folders/1WmRbHFs5oW4sBrY7q86grr77isETrbhz" },
+          { nombre: "Rojo", link: "https://drive.google.com/drive/folders/1z8kpnVzUFyV37BQVjYk66GEErK8aoGlT" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1QqawCU2ANaXk0vRoY5Eew8gxE6XwAnqO" }
         ]
       }
     ]
