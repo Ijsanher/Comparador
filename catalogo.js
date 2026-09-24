@@ -28,6 +28,7 @@ const CATALOGO = [
           { nombre: "Plata", link: "https://drive.google.com/drive/folders/1TFQxL9_7V3hmsplWhIcunG6yVqykaIrE" },
           { nombre: "Blanco", link: "https://drive.google.com/drive/folders/16rvO0MaLoPDxZ_PH6TwhdKfSjSprdrji" },
           { nombre: "Negro", link: "https://drive.google.com/drive/folders/1yBvURKONZJ-kpgTj42OJ1UF5UjE_3EQh" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1JC-GhAd6QYqVN59lF-NzZyEUjSyL4Mqk" },
           { nombre: "Azul", link: "https://drive.google.com/drive/folders/1CJIrOxtK2N_EQV1ps1HdedhIObiS0ehl" }
         ]
       }
@@ -43,6 +44,8 @@ const CATALOGO = [
         colores: [
           { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1b6Bw8fELPQ68wTE21tR_kKMdI8ZncLLU" },
           { nombre: "Plata", link: "https://drive.google.com/drive/folders/1KlXJHcgPh003j58rs89WrvWYtyV0zwRH" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/11cdg_D9E21sV5JQtoP6ooccCkOMHgHnG" },
+          { nombre: "Negro", link: "https://drive.google.com/drive/folders/1BRh-JqaojUaruQlc-COPgZdUu4Q7eeYC" },
           { nombre: "Verde", link: "https://drive.google.com/drive/folders/12hzo5OHWSSgk7g8FyzTzC9lJExmoS6UB" }
         ]
       }
@@ -56,13 +59,17 @@ const CATALOGO = [
       {
         nombre: "Exclusive",
         colores: [
-          { nombre: "Gris", link: "https://drive.google.com/drive/folders/12OeN4pI-8DRSyC5EvZaBuXK9OtP9YqYy" }
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/12OeN4pI-8DRSyC5EvZaBuXK9OtP9YqYy" },
+          { nombre: "Negro", link: "https://drive.google.com/drive/folders/1c5_w7Ic0OveUNyrHcWXbIBXmhnrYquin" },
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/11eI_6bytlZHhYiD7MyLRyMeEM_hTvRjl" },
+          { nombre: "Azul", link: "https://drive.google.com/drive/folders/12AvlYcWB-JUV_OB4ArHYN58KmyPLPTaa" }
         ]
       },
       {
         nombre: "Signature",
         colores: [
           { nombre: "Gris", link: "https://drive.google.com/drive/folders/1hotQfYLiPJ9nkZiQdsUt01w3AwC_g0Eu" },
+          { nombre: "Negro", link: "https://drive.google.com/drive/folders/1KNhNtv_eE-nFJJcJQFk8cvBNw9-3rKbN" },
           { nombre: "Blanco", link: "https://drive.google.com/drive/folders/18xfMKZT0zkOHzabWcsZVZMeK7UnMCqKp" },
           { nombre: "Azul", link: "https://drive.google.com/drive/folders/1ZPHolD9tXKXDkcxWWxL9HGh-L3iuM9RT" }
         ]
@@ -75,10 +82,19 @@ const CATALOGO = [
     foto: "images/emgrand.jpg",
     versiones: [
       {
+        nombre: "Exclusive_MT",
+        colores: [
+          { nombre: "Azul", link: "https://drive.google.com/drive/folders/1-YiT3fdN1vB8XgPqaL6wllCC106yOrhN" },
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1oMu02KA2OygfhONqksP4aPnYDc7EmxZj" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/19VyEuSN9m1DWTZ3UfRS_wW7KfxBgW-J4" }
+        ]
+      },
+      {
         nombre: "Sport",
         colores: [
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1Tcg7f5eT-zfwuq8zJQiSnOYa51ZpVVyq" },
           { nombre: "Azul", link: "https://drive.google.com/drive/folders/1ofyUQaVzkWs7wGqa5hwzz9uz92fGucpz" },
-          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1Tcg7f5eT-zfwuq8zJQiSnOYa51ZpVVyq" }
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1vQLtkRWcpK4VgYWDvegTEUR-xZym38KL" }
         ]
       }
     ]
