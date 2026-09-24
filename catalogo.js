@@ -174,11 +174,21 @@ const CATALOGO = [
     foto: "images/coolray-lite.jpg",
     versiones: [
       {
+        nombre: "Exclusive MT",
+        colores: [
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1xKHG0aaUb2VXomPsizjscSYTqffJqPq2" },
+          { nombre: "Plata", link: "https://drive.google.com/drive/folders/11hwTOiS4KS0cL53ZopcGPQuMRLrqR7fA" },
+          { nombre: "Azul", link: "https://drive.google.com/drive/folders/1XGd1Hf9EDMO_Pxyc5qeC53gi1_RWxPuR" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1g3vsAAm1hQ1wFhAE3aEG2gXTx-2aDO1O" }
+        ]
+      },
+      {
         nombre: "Exclusive CVT",
         colores: [
-          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1L7usgPANSMN_hAO0Rh8B-qPR_OAerb2y" },
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1yu2ES1_ZKbLZhlZCTSSsuPTX9yC57cIg" },
+          { nombre: "Azul", link: "https://drive.google.com/drive/folders/1OaZtK9_O8t__IiXZ9KitJhlDpkRuTZgo" },
           { nombre: "Plata", link: "https://drive.google.com/drive/folders/1-lrHgAaONkgg6IQEJVtYk2NcAe3Ei3km" },
-          { nombre: "Celeste", link: "https://drive.google.com/drive/folders/1OaZtK9_O8t__IiXZ9KitJhlDpkRuTZgo" }
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1L7usgPANSMN_hAO0Rh8B-qPR_OAerb2y" }
         ]
       }
     ]
@@ -189,9 +199,21 @@ const CATALOGO = [
     foto: "images/starray.jpg",
     versiones: [
       {
+        nombre: "Exclusive",
+        colores: [
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/15uCuPyWeW-nOwWhyR89Eb7YuL9W5wmI5" },
+          { nombre: "Plata", link: "https://drive.google.com/drive/folders/1XgAwtKk8_jOn8zcznzkgemGI1cRK3eUp" },
+          { nombre: "Verde", link: "https://drive.google.com/drive/folders/1bLjg67o6W4QdTYBDjRWBTceR-7qAYsdD" },
+          { nombre: "Negro", link: "https://drive.google.com/drive/folders/1n5uvcoLEAt-Z_WtBBuyBRisKUSDqHsSO" }
+        ]
+      },
+      {
         nombre: "Signature",
         colores: [
-          { nombre: "Verde", link: "https://drive.google.com/drive/folders/1V2O60EGQYfNqXPVqtH6DGD8hw3k4l3ch" }
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1D0CtRGSdrtDae5RqcSYyIjdDQRsI7MMO" },
+          { nombre: "Verde", link: "https://drive.google.com/drive/folders/1V2O60EGQYfNqXPVqtH6DGD8hw3k4l3ch" },
+          { nombre: "Plata", link: "https://drive.google.com/drive/folders/1dv1hu-G3I8JBggFe3Yhv-ACMUkoJBqXL" },
+          { nombre: "Negro", link: "https://drive.google.com/drive/folders/1nORgZkycxPFUSkAR3FH3Ooz1NTCppO-G" }
         ]
       }
     ]
