@@ -107,13 +107,17 @@ const CATALOGO = [
       {
         nombre: "Comfort",
         colores: [
-          { nombre: "Plata", link: "https://drive.google.com/drive/folders/11ghQ0nAYAi_wXLVnIvDAMv9N9iawEYX0" }
+          { nombre: "Plata", link: "https://drive.google.com/drive/folders/11ghQ0nAYAi_wXLVnIvDAMv9N9iawEYX0" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1cqE_8yBrWaUTN6Hhe7a6dKoq8Ie1I_Hc" },
+          { nombre: "Azul", link: "https://drive.google.com/drive/folders/1W48ltipix4SDS-TC8NtnTAO-PQ2qpepy" },
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1mCTlVAggvV4qdn293flIyiFV4IE-2x2F" }
         ]
       },
       {
         nombre: "Exclusive",
         colores: [
           { nombre: "Gris", link: "https://drive.google.com/drive/folders/1RFcXIusL4OiC-NYTEP-JpGm6tKBOqRJx" },
+          { nombre: "Plata", link: "https://drive.google.com/drive/folders/11ghQ0nAYAi_wXLVnIvDAMv9N9iawEYX0" },
           { nombre: "Azul", link: "https://drive.google.com/drive/folders/1ZDJZCbCJG8cQqHl4DrwUxddZQT9Dieh6" },
           { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1Ue8-AIvPHtg76hWjQAWqPfPtqlVxC7Gl" }
         ]
@@ -124,7 +128,7 @@ const CATALOGO = [
           { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1TI0LSLKalr6r6f6cpJbPFsTp6Yl08d0Z" },
           { nombre: "Azul", link: "https://drive.google.com/drive/folders/1Lv7NQKn3fo0P0IdmZxvz49tANk2gxQ2o" },
           { nombre: "Gris", link: "https://drive.google.com/drive/folders/1YzOu85JO_PmriVQZ7FM6necSArgqfisz" },
-          { nombre: "Silver", link: "https://drive.google.com/drive/folders/1xaf5MKkINACBHOWwTm1qZ-02vQh3W0bv" }
+          { nombre: "Plata", link: "https://drive.google.com/drive/folders/1xaf5MKkINACBHOWwTm1qZ-02vQh3W0bv" }
         ]
       }
     ]
@@ -135,20 +139,31 @@ const CATALOGO = [
     foto: "images/new-coolray-2026.jpg",
     versiones: [
       {
-        nombre: "Sport",
+        nombre: "Comfort",
+        colores: [
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1r3ZaAd31RKtbTu83fMHOdft7B8OUPFwL" },
+          { nombre: "Plata", link: "https://drive.google.com/drive/folders/1Jv5QL9aWPhm1xO4sbfNQZdZBQtavI8p8" },
+          { nombre: "Rojo", link: "https://drive.google.com/drive/folders/1BQ0RVTVW6CyMaRNx9_Fy7NeclV64BXxm" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/1cwNxsvaBVMhP5OMt1nezqxxbmyhvp2gY" }
+        ]
+      },
+      {
+        nombre: "Exclusive",
+        colores: [
+          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1J6uh8DC9XLZ_fAASAB_3tUY1q2IfXi0g" },
+          { nombre: "Rojo", link: "https://drive.google.com/drive/folders/1TMD6dr2oCH-94hz6j4GkGn_veFE_8ZNj" },
+          { nombre: "Plata", link: "https://drive.google.com/drive/folders/1gWIvjB6RDlmzoNX1xBria1x2hk2mAioi" },
+          { nombre: "Gris", link: "https://drive.google.com/drive/folders/11zm-Gi2h9ReDXCpjmLz6-_RqzwuVpBmq" }
+        ]
+      },
+      {
+        nombre: "Sport_Plus",
         colores: [
           { nombre: "Blanco", link: "https://drive.google.com/drive/folders/15tj-U0osk0tDoLM4LEdWbh9GS4IeQ37U" },
           { nombre: "Tornasol", link: "https://drive.google.com/drive/folders/171YTkV_oOUe_ftTlieagtX77u_iFKhci" },
           { nombre: "Silver", link: "https://drive.google.com/drive/folders/12ug5OH8oQhSj_D7u3etJ7-0tLzBrNtM6" },
           { nombre: "Rojo", link: "https://drive.google.com/drive/folders/1VS9GfRmhlYT6JucIVSscObBuZWklx6xh" },
           { nombre: "Gris", link: "https://drive.google.com/drive/folders/1G4LBiLZysC27kAV2nSC5wPpr40iq8zNs" }
-        ]
-      },
-      {
-        nombre: "Exclusive",
-        colores: [
-          { nombre: "Rojo", link: "https://drive.google.com/drive/folders/1TMD6dr2oCH-94hz6j4GkGn_veFE_8ZNj" },
-          { nombre: "Blanco", link: "https://drive.google.com/drive/folders/1J6uh8DC9XLZ_fAASAB_3tUY1q2IfXi0g" }
         ]
       }
     ]
